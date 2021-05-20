@@ -11,7 +11,7 @@ namespace Product_Review_Managment
     /// Solving By LinQ
     /// LINQ stands for Language Integrated Query
     /// </summary>
-   public class Program
+    public class Program
     {
         /// <summary>
         /// Entry Point of project
@@ -23,7 +23,8 @@ namespace Product_Review_Managment
             Console.WriteLine("_______________WELCOME TO THE PRODUCT REVIEW MANAGEMENT___________________");
             //Creating list for adding details 
             //List name ==productReviewList
-           
+
+
             List<ProductReview> productReviewList = new List<ProductReview>()
             {
                 //Adding details to the list
@@ -53,13 +54,20 @@ namespace Product_Review_Managment
                 new ProductReview(){ProductId=29,UserId=9,Rating=2,Review="Bad",isLike=false},
                 new ProductReview(){ProductId=25,UserId=10,Rating=5,Review="Good",isLike=true},
             };
+
+            //IterateoverProductList(productReviewList);
+
+            //reateDataTble();
             foreach (var list in productReviewList)
             {
-                Console.WriteLine("ProductId:-" + list.ProductId + " UserId:-" + list.UserId + " Ratings:-" + list.Rating + " Review:-" + list.Review + " IsLike:-" + list.isLike);
+                Console.WriteLine("| ProductId:-" + list.ProductId + " UserId:-" + list.UserId + " Ratings:-" + list.Rating + " Review:-" + list.Review + " IsLike:-" + list.isLike);
+
                 Console.ReadLine();
             }
+            //Calling Top records
+            RetrivedTop3RecordsFromList(productReviewList);
         }
-            public static void CreateDataTble()//Adding Method For query
+        public static void CreateDataTble()//Adding Method For query
         {
             DataTable table = new DataTable();
             table.Columns.Add("ProductID");
@@ -69,21 +77,41 @@ namespace Product_Review_Managment
             table.Rows.Add("2", "Mobile");
             table.Rows.Add("3", "TV");
 
+
         }
         //Adding Display Method 
         //Datatable Represents one table in memory data
         //AsEnumerabel is object where the generic parameter T is datarow
         //Fields column Value in specified row
-        public static void DisplayDatatableContent(DataTable table)
+        //UC1
+        public static void IterateoverProductList(List<ProductReview> productReviews)
         {
-            
-            var result = from product in table.AsEnumerable() select product.Field<string>("ProductName");//Returning object
-            foreach (var res in result)
+            foreach (ProductReview product in productReviews)
             {
-                Console.WriteLine("ProductName" + res);
-                Console.ReadLine();
-
+                Console.WriteLine("ProductId: " + product.ProductId + "\t" + "USerId " + product.UserId + "\t" + "Review" + product.Review + "\t" + "Rating" + product.Rating + "\t" + "ISLike" + product.isLike);
             }
         }
-    }
-}
+        //UC2
+        //Select record by order by clause
+        public static void RetrivedTop3RecordsFromList(List<ProductReview> productReviews)
+        {
+            try
+            {
+
+
+                //using Query Syntax
+                var result = (from product in productReviews orderby product.Rating descending select product).Take(3);
+                Console.WriteLine("********************Top Three Records**********************");
+
+                foreach (ProductReview product in result)
+                {
+                    Console.WriteLine("| ProductId: " + product.ProductId + "\t" + "USerId " + product.UserId + "\t" + "Review" + product.Review + "\t" + "Rating" + product.Rating + "\t" + "ISLike" + product.isLike);
+                    Console.ReadLine();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+   }
+    } }

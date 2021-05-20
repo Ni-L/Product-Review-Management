@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Product_Review_Managment
 {
+    /// <summary>
+    /// class for getting and setting value
+    /// </summary>
     public class ProductReview
     {
         public int ProductId { get; set; }
