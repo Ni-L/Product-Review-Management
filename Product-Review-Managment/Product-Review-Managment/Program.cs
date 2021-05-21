@@ -25,6 +25,8 @@ namespace Product_Review_Managment
             //List name ==productReviewList
 
 
+
+
             List<ProductReview> productReviewList = new List<ProductReview>()
             {
                 //Adding details to the list
@@ -54,18 +56,10 @@ namespace Product_Review_Managment
                 new ProductReview(){ProductId=29,UserId=9,Rating=2,Review="Bad",isLike=false},
                 new ProductReview(){ProductId=25,UserId=10,Rating=5,Review="Good",isLike=true},
             };
-
-            //IterateoverProductList(productReviewList);
-
-            //reateDataTble();
-            foreach (var list in productReviewList)
-            {
-                Console.WriteLine("| ProductId:-" + list.ProductId + " UserId:-" + list.UserId + " Ratings:-" + list.Rating + " Review:-" + list.Review + " IsLike:-" + list.isLike);
-
-                Console.ReadLine();
-            }
+            RetrivedBaseOnRatingProductId(productReviewList);
+            //IterateoverProductList(productReviewList);           
             //Calling Top records
-            RetrivedTop3RecordsFromList(productReviewList);
+            //RetrivedTop3RecordsFromList(productReviewList);
         }
         public static void CreateDataTble()//Adding Method For query
         {
@@ -109,9 +103,37 @@ namespace Product_Review_Managment
                     Console.ReadLine();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-   }
-    } }
+        }
+        //UC3
+        //Base on Rating 
+        //Using Lamda Expression
+        public static void RetrivedBaseOnRatingProductId(List<ProductReview> productReviews)
+        {
+            try
+            {
+
+
+                Console.WriteLine("**********************RetrivedBaseOnRatingProductId****************");
+                //Query by Lamda Expression
+                var data = (productReviews.Where(r => r.Rating > 3 && (r.ProductId == 1 || r.ProductId == 4 || r.ProductId == 9))).ToList();
+               // var recordedData = (from product in productReviews
+                                   // where product.Rating > 3 && (product.ProductId == 1 || product.ProductId == 4 || product.ProductId == 9)
+                                    // select product);
+
+                foreach (var element in data)
+                {
+                    Console.WriteLine("ProductId:-" + element.ProductId + " UserId:-" + element.UserId + " Ratings:-" + element.Rating + " Review:-" + element.Review + " IsLike:-" + element.isLike);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
