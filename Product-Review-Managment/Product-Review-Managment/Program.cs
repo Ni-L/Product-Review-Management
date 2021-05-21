@@ -56,10 +56,11 @@ namespace Product_Review_Managment
                 new ProductReview(){ProductId=29,UserId=9,Rating=2,Review="Bad",isLike=false},
                 new ProductReview(){ProductId=25,UserId=10,Rating=5,Review="Good",isLike=true},
             };
-            RetrivedBaseOnRatingProductId(productReviewList);
+            // RetrivedBaseOnRatingProductId(productReviewList);
             //IterateoverProductList(productReviewList);           
             //Calling Top records
             //RetrivedTop3RecordsFromList(productReviewList);
+            CountingProductId(productReviewList);
         }
         public static void CreateDataTble()//Adding Method For query
         {
@@ -115,8 +116,6 @@ namespace Product_Review_Managment
         {
             try
             {
-
-
                 Console.WriteLine("**********************RetrivedBaseOnRatingProductId****************");
                 //Query by Lamda Expression
                 var data = (productReviews.Where(r => r.Rating > 3 && (r.ProductId == 1 || r.ProductId == 4 || r.ProductId == 9))).ToList();
@@ -133,6 +132,19 @@ namespace Product_Review_Managment
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+        //Uc4
+        //For Count
+        //use Lamda Expression for Query
+        public static void CountingProductId(List<ProductReview> productReviews)
+        {
+            var recordData = productReviews.GroupBy(r => r.UserId).Select(r => new { productId = r.Key, count = r.Count() });
+
+            foreach (var element in recordData)
+            {
+                Console.WriteLine("UserId:-" + element.productId + " Count:-" + element.count);
+                Console.ReadLine();
             }
         }
     }
