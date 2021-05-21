@@ -24,9 +24,6 @@ namespace Product_Review_Managment
             //Creating list for adding details 
             //List name ==productReviewList
 
-
-
-
             List<ProductReview> productReviewList = new List<ProductReview>()
             {
                 //Adding details to the list
@@ -60,7 +57,9 @@ namespace Product_Review_Managment
             //IterateoverProductList(productReviewList);           
             //Calling Top records
             //RetrivedTop3RecordsFromList(productReviewList);
-            CountingProductId(productReviewList);
+            // CountingProductId(productReviewList);
+            RetrivedProductIdAndReview(productReviewList);
+
         }
         public static void CreateDataTble()//Adding Method For query
         {
@@ -71,7 +70,6 @@ namespace Product_Review_Managment
             table.Rows.Add("1", "Laptop");
             table.Rows.Add("2", "Mobile");
             table.Rows.Add("3", "TV");
-
 
         }
         //Adding Display Method 
@@ -92,7 +90,6 @@ namespace Product_Review_Managment
         {
             try
             {
-
 
                 //using Query Syntax
                 var result = (from product in productReviews orderby product.Rating descending select product).Take(3);
@@ -139,12 +136,41 @@ namespace Product_Review_Managment
         //use Lamda Expression for Query
         public static void CountingProductId(List<ProductReview> productReviews)
         {
-            var recordData = productReviews.GroupBy(r => r.UserId).Select(r => new { productId = r.Key, count = r.Count() });
-
-            foreach (var element in recordData)
+            try
             {
-                Console.WriteLine("UserId:-" + element.productId + " Count:-" + element.count);
-                Console.ReadLine();
+                Console.WriteLine("*********************CountingProductId***********************");
+                var recordData = productReviews.GroupBy(r => r.UserId).Select(r => new { productId = r.Key, count = r.Count() });
+
+                foreach (var element in recordData)
+                {
+                    Console.WriteLine("UserId:-" + element.productId + " Count:-" + element.count);
+                    Console.ReadLine();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        //UC5
+        //RetrivedProductIdAndReview
+        public static void RetrivedProductIdAndReview(List<ProductReview> productreview)
+        {
+            try
+            {
+
+                Console.WriteLine("***************RetrivedProductIdAndReview*******************");
+                var recordData = productreview.Select(r => new { r.ProductId, r.Review });
+
+                foreach (var element in recordData)
+                {
+                    Console.WriteLine("product Id:-" + element.ProductId + " Review :-" + element.Review);
+                    Console.ReadLine();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
