@@ -58,8 +58,8 @@ namespace Product_Review_Managment
             //Calling Top records
             //RetrivedTop3RecordsFromList(productReviewList);
             // CountingProductId(productReviewList);
-            RetrivedProductIdAndReview(productReviewList);
-
+            //RetrivedProductIdAndReview(productReviewList);
+            SkiipingRecord(productReviewList);
         }
         public static void CreateDataTble()//Adding Method For query
         {
@@ -173,5 +173,25 @@ namespace Product_Review_Managment
                 Console.WriteLine(ex.Message);
             }
         }
+        public static void SkiipingRecord(List<ProductReview> productReviews)
+        {
+            try
+            {
+                Console.WriteLine("**********************SkiipingRecord****************");
+                var recordedData = (from products in productReviews
+                                    select products).Skip(5);
+                foreach (var element in recordedData)
+                {
+                    Console.WriteLine("ProductId:-" + element.ProductId + " UserId:-" + element.UserId + " Ratings:-" + element.Rating + " Review:-" + element.Review + " IsLike:-" + element.isLike);
+                    Console.ReadLine();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
+
 }
