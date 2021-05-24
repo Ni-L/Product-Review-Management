@@ -61,10 +61,13 @@ namespace Product_Review_Managment
             //RetrivedProductIdAndReview(productReviewList);
             //  SkiipingRecord(productReviewList);
             //AddDataTable();
-            RetrieveRecordWithIsLikeIsTrue();
+            // RetrieveRecordWithIsLikeIsTrue();
+            FindAverageRatingOfTheEachProductId();
             Console.ReadLine() ;
             
         }
+
+        // RetrieveRecordWithIsLikeIsTrue();
         //Adding Display Method 
         //Datatable Represents one table in memory data
         //AsEnumerabel is object where the generic parameter T is datarow
@@ -207,6 +210,8 @@ namespace Product_Review_Managment
             table.Rows.Add("10", "2", "2", "Bad", false);
             table.Rows.Add("11", "3", "3", "Average", true);
             table.Rows.Add("12", "1", "3", "Average", false);
+            Console.WriteLine("Displaytable");
+            Console.ReadLine();
         }
         public static void DisplayTable(DataTable table) //Create Display method
         {
@@ -237,7 +242,23 @@ namespace Product_Review_Managment
                 Console.WriteLine("ProductId:-" + list.Field<int>("ProductId") + "\t" + "UserId:- " + list.Field<int>("UserId") + "\t" + "Rating:-" + list.Field<double>("Rating") + "\t" + "Review:-" + list.Field<string>("Review") + "\t" + "isLike:-" + list.Field<bool>("isLike"));
             }
         }
-
+        public static void FindAverageRatingOfTheEachProductId()
+        {
+            try
+            {
+                AddDataTable();
+                var records = table.AsEnumerable().GroupBy(r => r.Field<int>("ProductId")).Select(r => new { ProductId = r.Key, Average = r.Average(z => (z.Field<double>("Rating"))) });
+                Console.WriteLine("\nProductId and its average rating");
+                foreach (var v in records)
+                {
+                    Console.WriteLine($"ProductID:{v.ProductId}\tAverageRating:{v.Average}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 
 }
