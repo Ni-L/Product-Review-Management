@@ -63,8 +63,9 @@ namespace Product_Review_Managment
             //AddDataTable();
             // RetrieveRecordWithIsLikeIsTrue();
             //FindAverageRatingOfTheEachProductId();
-            ReviewMessageRetrieval();
-            Console.ReadLine() ;
+            //ReviewMessageRetrieval();
+            SelectRecordsForUserId();
+            Console.ReadKey() ;
             
         }
 
@@ -277,6 +278,20 @@ namespace Product_Review_Managment
                 Console.WriteLine("ProductId:-" + list.Field<string>("productId") + " UserId:-" + list.Field<string>("userId") + " Ratings:-" + list.Field<string>("ratings") + " Review:-" + list.Field<string>("reviews") + " IsLike:-" + list.Field<string>("isLike"));
             }
 
+        }
+        //UC12
+        public static void SelectRecordsForUserId()
+        {
+            var recordData = table.AsEnumerable().Where(r => Convert.ToInt32(r.Field<string>("userid")) == 10).OrderBy(r => Convert.ToInt32(r.Field<string>("ratings")));
+            var recordedData = from products in table.AsEnumerable()
+                               where Convert.ToInt32(products.Field<string>("userid")) == 10
+                               orderby (Convert.ToInt32(products.Field<string>("ratings")))
+                               select products;
+            foreach (var list in recordedData)
+            {
+                //field datatype is string here for every column
+                Console.WriteLine("ProductId:-" + list.Field<string>("productId") + " UserId:-" + list.Field<string>("userId") + " Ratings:-" + list.Field<string>("ratings") + " Review:-" + list.Field<string>("reviews") + " IsLike:-" + list.Field<string>("isLike"));
+            }
         }
     }
 
