@@ -60,7 +60,8 @@ namespace Product_Review_Managment
             // CountingProductId(productReviewList);
             //RetrivedProductIdAndReview(productReviewList);
             //  SkiipingRecord(productReviewList);
-            AddDataTable();
+            //AddDataTable();
+            RetrieveRecordWithIsLikeIsTrue();
             Console.ReadLine() ;
             
         }
@@ -68,6 +69,7 @@ namespace Product_Review_Managment
         //Datatable Represents one table in memory data
         //AsEnumerabel is object where the generic parameter T is datarow
         //Fields column Value in specified row
+        public static DataTable table = new DataTable();
         //UC1
         public static void IterateoverProductList(List<ProductReview> productReviews)
         {
@@ -184,6 +186,7 @@ namespace Product_Review_Managment
                 Console.WriteLine(ex.Message);
             }
         }
+      
         public static void AddDataTable()
         {
             DataTable table = new DataTable();
@@ -219,6 +222,19 @@ namespace Product_Review_Managment
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+        public static void RetrieveRecordWithIsLikeIsTrue()
+        {
+            AddDataTable(); //UC8
+            var result = from product in table.AsEnumerable()
+                         where product.Field<bool>("isLike") == true
+                         select product;
+
+            Console.WriteLine("\nRecords in table whose IsLike value is true");
+            foreach (var list in result) //Printing data
+            {
+                Console.WriteLine("ProductId:-" + list.Field<int>("ProductId") + "\t" + "UserId:- " + list.Field<int>("UserId") + "\t" + "Rating:-" + list.Field<double>("Rating") + "\t" + "Review:-" + list.Field<string>("Review") + "\t" + "isLike:-" + list.Field<bool>("isLike"));
             }
         }
 
